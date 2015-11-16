@@ -1,0 +1,9 @@
+---
+# defaults file for svenagnew.users
+ssh_users:
+  - username: patrick
+    keyfile: "{{ lookup('file', 'authorized_keys/patrick.pub') }}"
+  - username: sven
+    keyfile: "{{ lookup('file', 'authorized_keys/sven.pub') }}"
+service_users:
+  - username: graphite

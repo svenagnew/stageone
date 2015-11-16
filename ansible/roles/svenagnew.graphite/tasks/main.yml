@@ -1,0 +1,43 @@
+---
+# tasks file for svenagnew.graphite
+- name: install Graphite packages
+  apt: name={{ item }} state=present
+  with_items:
+    - graphite-web
+    - graphite-carbon
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
+    - apache2
+    - libapache2-mod-wsgi
+
+ #
+ # -name: Provide seed data for the Database
+ #  copy: src=etc/graphite/initial_data.json dest=/etc/graphite/initial_data.json
+# 
+# - name: Upload Graphite Server settings
+#   template: src=etc/graphite/local_settings.py.j2 dest=/etc/graphite/local_settings.py owner=root group=root mode=0644
+#   notify: graphite-manage-syncdb
+
+- name: Upload the graphite-carbon configure
+  template: src=etc/default/graphite-carbon.j2 dest=/etc/default/graphite-carbon owner=root group=root mode=0644
+
+- name: Upload the carbon config.
+  template: src=etc/carbon/carbon.conf.j2 dest=/etc/carbon/carbon.conf owner=root group=root mode=0644
+  notify: carbon-cache-handler
+
+- name: Upload the storage schema config.
+  template: src=etc/carbon/storage-schemas.conf.j2 dest=/etc/carbon/storage-schemas.conf owner=root group=root mode=0644
+
+- name: Upload the storage aggregation config.
+  template: src=etc/carbon/storage-aggregation.conf.j2 dest=/etc/carbon/storage-aggregation.conf owner=root group=root mode=0644
+
+- name: Disable Apache2 default site.
+  command: a2dissite 000-default
+
+- name: Upload the Apache2 Vhost config
+  template: src=etc/apache2/sites-available/apache2-graphite.conf.j2 dest=/etc/apache2/sites-available/apache2-graphite.conf owner=root group=root mode=0644
+
+- name: Enable the new Vhost
+  command: a2ensite apache2-graphite
+  notify: apache-reload

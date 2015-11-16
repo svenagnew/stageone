@@ -1,0 +1,15 @@
+---
+# tasks file for svenagnew.users
+- name: Ensure the admin group is present on the system
+  group: name={{ item }} state=present system=yes
+  with_items:
+    - "admin"
+    - "adm"
+
+- name: Create a shell account for each user defined in defaults/main.yml
+  user: name={{ item.username }} shell=/bin/bash comment="Human" createhome=yes group=root groups=admin,adm state=present
+  with_items: ssh_users
+
+- name: Add ssh-keys to authorized_keys file for Human users.
+  authorized_key: user={{ item.username }} key="{{ item.keyfile }}" state=present manage_dir=yes
+  with_items: ssh_users

@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Sven Agnew
+  description: A role to install and configure Graphite
+  company: Ideamachine
+  issue_tracker_url: http://example.com/issue/tracker
+  license: Copyright (c) 2015 Sven Agnew. All Rights Reserved.
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  categories:
+    - monitoring
+    - packaging
+    - system
+    - web
+dependencies: []

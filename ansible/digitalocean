@@ -1,0 +1,17 @@
+[all]
+monitor1.ubxd.io
+apricot.hipjam.net
+plum.hipjam.net
+fig.hipjam.net
+
+[graphite-servers]
+monitor1.ubxd.io
+
+[collectd-agents]
+apricot.hipjam.net
+fig.hipjam.net
+plum.hipjam.net
+
+[losers]
+fig.hipjam.net
+plum.hipjam.net

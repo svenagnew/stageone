@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Sven Agnew
+  description: provides common attributes for Ubxd infrastructure hosts
+  company: Unboxed Consulting (PTY) Ltd.
+  issue_tracker_url: http://bitbucket.org/svenagnew/common
+  license: Copyright (c) 2015 Sven Agnew. All Rights Reserved.
+  min_ansible_version: 1.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+      - trusty
+  categories:
+  - development
+  - packaging
+  - system
+
+dependencies: []

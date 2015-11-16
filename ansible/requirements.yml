@@ -1,0 +1,10 @@
+---
+- src: git+ssh://git@bitbucket.org/svenagnew/common
+  version: master
+  name: svenagnew.common
+  path: roles/
+
+- src: git+ssh://git@bitbucket.org/svenagnew/users
+  version: master
+  name: svenagnew.users
+  path: roles/

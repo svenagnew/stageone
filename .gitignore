@@ -1,0 +1,11 @@
+keys.json
+ansible/*.log
+ansible/lib
+ansible/vault_password_file
+packer/build/*.box
+packer/packer_cache
+terraform/*.plan
+terraform/*.tfstate.backup
+terraform/*.tfvars
+vagrant/.vagrant
+vagrant/*.box

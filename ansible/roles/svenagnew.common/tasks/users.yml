@@ -1,0 +1,12 @@
+---
+- name: Ensure the admin group is present on the system
+  group: name=admin gid=505 state=present system=yes
+
+- name: Ensure the deploy user account is present
+  user: name=deploy comment="The Deploy User" home="/home/deploy" createhome=yes shell="/bin/bash" state=present groups=admin,root append=yes
+
+- name: Deploy users' ssh directory is present
+  file: path=/home/deploy/.ssh owner=deploy group=deploy mode=0700 state=directory
+
+- name: Ensure human users can ssh in as deploy user
+  copy: src=etc/authorized_keys dest=/home/deploy/.ssh/authorized_keys owner=deploy group=deploy mode=0600

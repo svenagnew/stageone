@@ -1,0 +1,46 @@
+---
+# Provide the Nginx APT repositories
+- name: Adding the Nginx apt gpg-key to the system
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+  tags: default-packages
+
+- name: Adding the Nginx apt repo to the system
+  apt_repository: repo="deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} nginx" state=present update_cache=yes
+  tags: default-packages
+
+# Provide the Nodejs APT repositories
+- name: Apt | add the NodeJS apt repository
+  apt_repository: repo='ppa:chris-lea/node.js'
+  tags: default-packages
+
+# Put commonly required packages in place
+- name: Ensuring default packages are present
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - apache2-utils
+    - coreutils
+    - apticron
+    - logrotate
+    - openjdk-7-jre-headless
+    - python-passlib
+    - screen
+    - ufw
+  tags: default-packages
+
+- name: Ensure required packages for Rbenv are present
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - git-core
+    - curl
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - libffi-dev

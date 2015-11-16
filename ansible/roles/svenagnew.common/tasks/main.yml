@@ -1,0 +1,7 @@
+---
+- name: Before we do anything, update apt cache and upgrade default packages on intialization
+  apt: upgrade=safe update_cache=yes cache_valid_time=7200
+
+- include: users.yml
+- include: base-packages.yml
+- include: config.yml

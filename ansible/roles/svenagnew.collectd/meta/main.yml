@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Sven Agnew
+  description: A role to install a collectd agent onto a system
+  company: Ideamachine
+  license: Copyright (c) 2015 Sven Agnew. All Rights Reserved.
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  categories:
+    - monitoring
+    - system
+    - web
+dependencies: []

@@ -1,0 +1,10 @@
+---
+# Put commonly required configuration in place
+- name: Ensure vi is set to be the default editor
+  command: update-alternatives --set editor /usr/bin/vim.tiny
+
+- name: Ensure apticron is configured
+  template: src=etc/apticron/apticron.conf.j2 dest=/etc/apticron/apticron.conf owner=root group=root mode=0644
+
+- name: Ensure sudo is setup correctly
+  template: src=etc/sudoers.j2 dest=/etc/sudoers owner=root group=root mode=0440 validate='visudo -cf %s'

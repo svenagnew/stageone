@@ -1,0 +1,49 @@
+- hosts: graphite-servers
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+    - svenagnew.common
+    - svenagnew.users
+  tags: common
+
+- hosts: graphite-servers
+  remote_user: root
+  become: yes
+  become_user: postgres
+  vars_files:
+    - secrets.yml
+  tasks:
+    - name: creates database user
+      postgresql_user: name={{ graphite_db_user }} password="{{ graphite_db_pass }}" state=present role_attr_flags='CREATEDB,NOSUPERUSER'
+    - name: creates the database
+      postgresql_db: name=graphite owner={{ graphite_db_user }} state=present
+  tags: postgres
+
+- hosts: graphite-servers
+  remote_user: sven
+  become: yes
+  become_user: root
+  roles:
+    - svenagnew.graphite
+  vars_files:
+    - secrets.yml
+  tags: graphite
+
+- hosts: losers
+  remote_user: deploy
+  become: yes
+  become_user: root
+  roles:
+    - svenagnew.users
+  tags: once-off
+
+- hosts: collectd-agents
+  remote_user: sven
+  become: yes
+  become_user: root
+  roles:
+    - svenagnew.collectd
+  vars_files:
+    - secrets.yml
+  tags: collectd

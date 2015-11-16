@@ -1,0 +1,10 @@
+---
+# handlers file for svenagnew.graphite
+- name: carbon-cache-handler
+  service: name=carbon-cache state=started enabled=yes
+
+- name: apache-reload
+  service: name=apache2 state=reloaded enabled=yes
+
+- name: graphite-manage-syncdb
+  command: graphite-manage syncdb --noinput

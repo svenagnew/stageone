@@ -1,0 +1,4 @@
+---
+# handlers file for svenagnew.collectd
+- name: collectd-service-handler
+  service: name=collectd state=restarted enabled=yes

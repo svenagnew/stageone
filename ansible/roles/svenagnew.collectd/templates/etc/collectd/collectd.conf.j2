@@ -1,0 +1,320 @@
+# Config file for collectd(1).
+#
+# Some plugins need additional configuration and are disabled by default.
+# Please read collectd.conf(5) for details.
+#
+# You should also read /usr/share/doc/collectd-core/README.Debian.plugins
+# before enabling any more plugins.
+
+##############################################################################
+# Global                                                                     #
+#----------------------------------------------------------------------------#
+# Global settings for the daemon.                                            #
+##############################################################################
+
+#Hostname "localhost"
+FQDNLookup true
+#BaseDir "/var/lib/collectd"
+#PluginDir "/usr/lib/collectd"
+#TypesDB "/usr/share/collectd/types.db" "/etc/collectd/my_types.db"
+
+#----------------------------------------------------------------------------#
+# When enabled, plugins are loaded automatically with the default options    #
+# when an appropriate <Plugin ...> block is encountered.                     #
+# Disabled by default.                                                       #
+#----------------------------------------------------------------------------#
+#AutoLoadPlugin false
+
+#----------------------------------------------------------------------------#
+# Interval at which to query values. This may be overwritten on a per-plugin #
+# base by using the 'Interval' option of the LoadPlugin block:               #
+#   <LoadPlugin foo>                                                         #
+#       Interval 60                                                          #
+#   </LoadPlugin>                                                            #
+#----------------------------------------------------------------------------#
+Interval 10
+
+#Timeout 2
+#ReadThreads 5
+#WriteThreads 5
+
+# Limit the size of the write queue. Default is no limit. Setting up a limit
+# is recommended for servers handling a high volume of traffic.
+#WriteQueueLimitHigh 1000000
+#WriteQueueLimitLow   800000
+
+##############################################################################
+# Logging                                                                    #
+#----------------------------------------------------------------------------#
+# Plugins which provide logging functions should be loaded first, so log     #
+# messages generated when loading or configuring other plugins can be        #
+# accessed.                                                                  #
+##############################################################################
+
+#LoadPlugin logfile
+LoadPlugin syslog
+
+#<Plugin logfile>
+#	LogLevel "info"
+#	File STDOUT
+#	Timestamp true
+#	PrintSeverity false
+#</Plugin>
+
+<Plugin syslog>
+	LogLevel info
+</Plugin>
+
+##############################################################################
+# LoadPlugin section                                                         #
+#----------------------------------------------------------------------------#
+# Specify what features to activate.                                         #
+##############################################################################
+
+LoadPlugin cpu
+LoadPlugin df
+LoadPlugin disk
+#LoadPlugin email
+#LoadPlugin ethstat
+#LoadPlugin exec
+LoadPlugin interface
+#LoadPlugin iptables
+#LoadPlugin java
+LoadPlugin load
+#LoadPlugin memcached
+LoadPlugin memory
+#LoadPlugin mysql
+#LoadPlugin notify_email
+LoadPlugin ntpd
+#<LoadPlugin perl>
+#	Globals true
+#</LoadPlugin>
+LoadPlugin processes
+#<LoadPlugin python>
+#	Globals true
+#</LoadPlugin>
+LoadPlugin rrdtool
+LoadPlugin swap
+LoadPlugin threshold
+LoadPlugin users
+LoadPlugin write_graphite
+LoadPlugin zookeeper
+
+##############################################################################
+# Plugin configuration                                                       #
+#----------------------------------------------------------------------------#
+# In this section configuration stubs for each plugin are provided. A desc-  #
+# ription of those options is available in the collectd.conf(5) manual page. #
+##############################################################################
+
+#<Plugin "aggregation">
+#	<Aggregation>
+#		#Host "unspecified"
+#		Plugin "cpu"
+#		PluginInstance "/[0,2,4,6,8]$/"
+#		Type "cpu"
+#		#TypeInstance "unspecified"
+#
+#		SetPlugin "cpu"
+#		SetPluginInstance "even-%{aggregation}"
+#
+#		GroupBy "Host"
+#		GroupBy "TypeInstance"
+#
+#		CalculateNum false
+#		CalculateSum false
+#		CalculateAverage true
+#		CalculateMinimum false
+#		CalculateMaximum false
+#		CalculateStddev false
+#	</Aggregation>
+#</Plugin>
+
+<Plugin df>
+#	Device "/dev/sda1"
+#	Device "192.168.0.2:/mnt/nfs"
+MountPoint "/"
+#	FSType "ext3"
+
+	# ignore rootfs; else, the root file-system would appear twice, causing
+	# one of the updates to fail and spam the log
+	FSType rootfs
+	# ignore the usual virtual / temporary file-systems
+	FSType sysfs
+	FSType proc
+	FSType devtmpfs
+	FSType devpts
+	FSType tmpfs
+	FSType fusectl
+	FSType cgroup
+	IgnoreSelected true
+
+#	ReportByDevice false
+#	ReportReserved false
+#	ReportInodes false
+
+#	ValuesAbsolute true
+ValuesPercentage true
+</Plugin>
+
+#<Plugin disk>
+#	Disk "hda"
+#	Disk "/sda[23]/"
+#	IgnoreSelected false
+#</Plugin>
+
+#<Plugin email>
+#	SocketFile "/var/run/collectd-email"
+#	SocketGroup "collectd"
+#	SocketPerms "0770"
+#	MaxConns 5
+#</Plugin>
+
+#<Plugin ethstat>
+#	Interface "eth0"
+#	Map "rx_csum_offload_errors" "if_rx_errors" "checksum_offload"
+#	Map "multicast" "if_multicast"
+#	MappedOnly false
+#</Plugin>
+
+#<Plugin exec>
+#	Exec user "/path/to/exec"
+#	Exec "user:group" "/path/to/exec"
+#	NotificationExec user "/path/to/exec"
+#</Plugin>
+
+<Plugin interface>
+	Interface "eth0"
+	IgnoreSelected false
+</Plugin>
+
+#<Plugin java>
+#	JVMArg "-verbose:jni"
+#	JVMArg "-Djava.class.path=/usr/share/collectd/java/collectd-api.jar"
+#
+#	LoadPlugin "org.collectd.java.GenericJMX"
+#	<Plugin "GenericJMX">
+#		# See /usr/share/doc/collectd/examples/GenericJMX.conf
+#		# for an example config.
+#	</Plugin>
+#</Plugin>
+
+#<Plugin memcachec>
+#	<Page "plugin_instance">
+#		Server "localhost"
+#		Key "page_key"
+#		<Match>
+#			Regex "(\\d+) bytes sent"
+#			ExcludeRegex "<lines to be excluded>"
+#			DSType CounterAdd
+#			Type "ipt_octets"
+#			Instance "type_instance"
+#		</Match>
+#	</Page>
+#</Plugin>
+
+#<Plugin memcached>
+#	<Instance "local">
+#		Socket "/var/run/memcached.sock"
+# or:
+#		Host "127.0.0.1"
+#		Port "11211"
+#	</Instance>
+#</Plugin>
+
+#<Plugin mysql>
+#	<Database db_name>
+#		Host "database.serv.er"
+#		Port "3306"
+#		User "db_user"
+#		Password "secret"
+#		Database "db_name"
+#		MasterStats true
+#	</Database>
+#
+#	<Database db_name2>
+#		Host "localhost"
+#		Socket "/var/run/mysql/mysqld.sock"
+#		SlaveStats true
+#		SlaveNotifications true
+#	</Database>
+#</Plugin>
+
+#<Plugin notify_email>
+#	SMTPServer "localhost"
+#	SMTPPort 25
+#	SMTPUser "my-username"
+#	SMTPPassword "my-password"
+#	From "collectd@main0server.com"
+#	# <WARNING/FAILURE/OK> on <hostname>.
+#	# Beware! Do not use not more than two placeholders (%)!
+#	Subject "[collectd] %s on %s!"
+#	Recipient "email1@domain1.net"
+#	Recipient "email2@domain2.com"
+#</Plugin>
+
+<Plugin ntpd>
+	Host "localhost"
+	Port 123
+	ReverseLookups false
+	IncludeUnitID true
+</Plugin>
+
+<Plugin processes>
+#	Process "name"
+#	ProcessMatch "foobar" "/usr/bin/perl foobar\\.pl.*"
+  ProcessMatch "ThriftServer" "org\.apache\.hadoop\.hbase\.thrift\.ThriftServer*"
+  ProcessMatch "Zookeeper" "org\.apache\.hadoop\.hbase\.zookeeper*"
+</Plugin>
+
+<Plugin rrdtool>
+	DataDir "/var/lib/collectd/rrd"
+#	CacheTimeout 120
+#	CacheFlush 900
+#	WritesPerSecond 30
+#	CreateFilesAsync false
+#	RandomTimeout 0
+#
+# The following settings are rather advanced
+# and should usually not be touched:
+#	StepSize 10
+#	HeartBeat 20
+#	RRARows 1200
+#	RRATimespan 158112000
+#	XFF 0.1
+</Plugin>
+
+#<Plugin swap>
+#	ReportByDevice false
+#	ReportBytes true
+#</Plugin>
+
+<Plugin threshold>
+  <Type "percentage_bytes">
+	  Instance free
+		WarningMin 20
+		FailureMin 10
+	</Type>
+</Plugin>
+
+<Plugin write_graphite>
+	<Node "{{ inventory_hostname }}">
+		Host "monitor1.ubxd.io"
+		Port "2003"
+		Protocol "tcp"
+		LogSendErrors true
+		Prefix "collectd."
+		StoreRates true
+		AlwaysAppendDS false
+		EscapeCharacter "_"
+	</Node>
+</Plugin>
+
+<Plugin "zookeeper">
+ Host "127.0.0.1"
+ Port "2181"
+</Plugin>
+
+<Include "/etc/collectd/collectd.conf.d">
+	Filter "*.conf"
+</Include>
