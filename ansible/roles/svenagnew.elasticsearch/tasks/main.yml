@@ -1,0 +1,26 @@
+---
+# tasks file for svenagnew.elasticsearch
+# Provide the Elasticsearch APT repositories
+- name: Adding the Elasticsearch apt gpg-key to the system
+  apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
+
+- name: Adding the Elasticsearch apt repo to the system
+  apt_repository: repo='{{es_apt_repo}}' state=present update_cache=yes
+
+- name: Installing the elasticsearch package
+  apt: name=elasticsearch state=present update_cache=yes
+
+# Configure elasticsearch for this system
+# - name: Generating the data path for elasticsearch
+#   file: path={{es_data_store}} state=directory owner=elasticsearch group=elasticsearch
+#
+
+- name: Overriding configuration of '/etc/default/elasticsearch'
+  template: src=etc/default/elasticsearch.j2 dest=/etc/default/elasticsearch owner=root group=root
+
+- name: Override the init scripts for Elasticsearch
+  template: src=etc/init.d/elasticsearch.j2 dest=/etc/init.d/elasticsearch owner=root group=root mode=0755
+
+- name: Applying configuration template to elasticsearch
+  template: src=etc/elasticsearch/elasticsearch.yml.j2 dest={{es_config_path}}/elasticsearch.yml
+  notify: restart elasticsearch

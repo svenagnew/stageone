@@ -1,0 +1,10 @@
+---
+# vars file for svenagnew.elasticsearch
+es_home_path: '/usr/share/elasticsearch'
+es_bin_path: '/usr/share/elasticsearch/bin'
+es_config_path: '/etc/elasticsearch'
+es_envvar_path: '/etc/default/elasticsearch'
+es_data_path: '/var/lib/elasticsearch/'
+es_work_path: '/tmp/elasticsearch'
+es_log_path: '/var/log/elasticsearch'
+es_plugins_path: '/usr/share/elasticsearch/plugins'

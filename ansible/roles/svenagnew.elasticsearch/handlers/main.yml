@@ -1,0 +1,10 @@
+---
+# handlers file for svenagnew.elasticsearch
+- name: start elasticsearch
+  service: name=elasticsearch state=started enabled=yes
+
+- name: restart elasticsearch
+  service: name=elasticsearch state=restarted enabled=yes
+
+- name: stop elasticsearch
+  service: name=elasticsearch state=stopped enabled=yes
