@@ -8,3 +8,8 @@
   version: master
   name: svenagnew.users
   path: roles/
+
+- src: git+ssh://git@bitbucket.org/svenagnew/elasticsearch
+  version: master
+  name: svenagnew.elasticsearch
+  path: roles/
