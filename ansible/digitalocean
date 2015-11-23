@@ -1,8 +1,9 @@
 [all]
-monitor1.ubxd.io
 apricot.hipjam.net
-plum.hipjam.net
+elk1.ubxd.io
 fig.hipjam.net
+monitor1.ubxd.io
+plum.hipjam.net
 
 [graphite-servers]
 monitor1.ubxd.io
@@ -13,5 +14,19 @@ fig.hipjam.net
 plum.hipjam.net
 
 [losers]
+fig.hipjam.net
+plum.hipjam.net
+
+[elasticsearch-servers]
+elk1.ubxd.io
+
+[logstash-servers]
+elk1.ubxd.io
+
+[kibana-servers]
+elk1.ubxd.io
+
+[beats-agents]
+apricot.hipjam.net
 fig.hipjam.net
 plum.hipjam.net
