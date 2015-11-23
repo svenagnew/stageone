@@ -1,3 +1,6 @@
 monitor1.ubxd.io:
   :user:
     - root
+elk1.ubxd.io:
+  :user:
+    - root

@@ -1,4 +1,6 @@
 keys.json
+images.json
+application-images.json
 ansible/*.log
 ansible/lib
 ansible/vault_password_file
