@@ -63,3 +63,8 @@ This _can_ be automated, by seeding the action with a JSON file, and calling it 
 ##### 3. Hadoop Metrics #####
 
 * See https://gist.github.com/gensth/1173492
+
+##### 4. Kibana #####
+
+Your Kibana instance can be accessed at http://elk1.ubxd.io/
+Your Kibana HTTP AUTH BASIC login credentials are available in the vault.
